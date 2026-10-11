@@ -2,38 +2,42 @@ using UnityEngine;
 
 public class GroundScroller : MonoBehaviour
 {
-    public Transform groundA;
-    public Transform groundB;
+    [Header("Settings")]
+    public float speed = 5f;
+    public Transform otherGround;
+    public float groundWidth = 30f;
+    
+    [Tooltip("Nilai overlap untuk menutup celah/undakan piksel di ujung sprite")]
+    public float overlap = 0.1f; 
 
-    private float width;
+    private float fixedY;
+    private float fixedZ;
 
     void Start()
     {
-        // Mengambil ukuran panjang asli tanah dari nilai Scale X di Inspector
-        if (groundA != null)
-        {
-            width = groundA.localScale.x;
-        }
+        // Simpan koordinat Y dan Z awal agar kuncinya 100% konsisten sejak game mulai
+        fixedY = transform.position.y;
+        fixedZ = transform.position.z;
     }
 
     void Update()
     {
-        if (GameManager.Instance != null && GameManager.Instance.State != GameManager.GameState.Playing) return;
+        // 1. Geser tanah ke kiri menggunakan pos X langsung (presisi tinggi)
+        Vector3 pos = transform.position;
+        pos.x -= speed * Time.deltaTime;
+        pos.y = fixedY; // Kunci Y agar tidak pernah bergeser berundak
+        pos.z = fixedZ;
+        transform.position = pos;
 
-        float move = GameManager.Instance.CurrentSpeed * Time.deltaTime;
-        groundA.position += Vector3.left * move;
-        groundB.position += Vector3.left * move;
-
-        // Pindahkan tanah A tepat di belakang tanah B saat keluar layar
-        if (groundA.position.x <= -width)
+        // 2. Teleport tanah saat sudah melewati batas lebar tanahnya
+        if (transform.position.x <= -groundWidth)
         {
-            groundA.position = new Vector3(groundB.position.x + width, groundA.position.y, groundA.position.z);
-        }
+            // Pindahkan tepat ke belakang otherGround dan kurangi nilai overlap
+            pos.x = (otherGround.position.x + groundWidth) - overlap;
+            pos.y = otherGround.position.y;
+            pos.z = otherGround.position.z;
 
-        // Pindahkan tanah B tepat di belakang tanah A saat keluar layar
-        if (groundB.position.x <= -width)
-        {
-            groundB.position = new Vector3(groundA.position.x + width, groundB.position.y, groundB.position.z);
+            transform.position = pos;
         }
     }
 }

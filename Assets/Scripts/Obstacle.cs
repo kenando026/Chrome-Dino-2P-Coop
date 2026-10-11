@@ -2,14 +2,19 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    public float destroyX = -15f;
+    [Header("Movement Settings")]
+    public float speed = 5f;
+    public float destroyBoundaryX = -12f;
 
     void Update()
     {
-        if (GameManager.Instance.State != GameManager.GameState.Playing) return;
+        // Geser ke kiri
+        transform.position += Vector3.left * speed * Time.deltaTime;
 
-        transform.Translate(Vector2.left * GameManager.Instance.CurrentSpeed * Time.deltaTime);
-
-        if (transform.position.x < destroyX) Destroy(gameObject);
+        // Hapus jika sudah keluar dari layar kiri
+        if (transform.position.x <= destroyBoundaryX)
+        {
+            Destroy(gameObject);
+        }
     }
 }

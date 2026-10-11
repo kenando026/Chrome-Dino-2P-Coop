@@ -36,6 +36,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // PENTING: Kembalikan waktu berjalan normal (1x speed) setiap kali game dimulai/direstart
+        Time.timeScale = 1f;
+
         CurrentSpeed = startSpeed;
         Score = 0;
         State = GameState.Playing;
@@ -43,7 +46,13 @@ public class GameManager : MonoBehaviour
 
         // Pastikan pop-up tersembunyi di awal game
         if (gameOverPanel) gameOverPanel.SetActive(false);
-        if (restartButton) restartButton.onClick.AddListener(RestartGame);
+        
+        // Memastikan tombol restart memanggil fungsi yang benar saat diklik
+        if (restartButton) 
+        {
+            restartButton.onClick.RemoveAllListeners();
+            restartButton.onClick.AddListener(RestartGame);
+        }
 
         UpdateUI();
     }
@@ -69,8 +78,7 @@ public class GameManager : MonoBehaviour
         if (highScoreText) highScoreText.text = "HI: " + highScore;
     }
 
-    // Dipanggil saat ada pemain yang menabrak kaktus
-    public void PlayerDied()
+    public void GameOver()
     {
         if (State == GameState.GameOver) return;
 
@@ -80,6 +88,9 @@ public class GameManager : MonoBehaviour
         // Tampilkan pop-up restart
         if (gameOverText) gameOverText.text = "GAME OVER";
         if (gameOverPanel) gameOverPanel.SetActive(true);
+
+        // PENTING: Hentikan semua pergerakan (Pause) saat mati
+        Time.timeScale = 0f;
     }
 
     void SaveHighScore()
@@ -95,6 +106,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        // Memuat ulang scene ini dari awal. (Waktu akan otomatis menjadi normal lagi karena fungsi Start dipanggil)
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
