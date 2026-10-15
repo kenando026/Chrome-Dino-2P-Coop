@@ -5,8 +5,13 @@ public class Player1Controller : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
     
+    // Sesuaikan nilai ini langsung di Inspector Unity jika kurang pas
+    public float minX = -6.8f; 
+    public float maxX = 8.5f;
+    
     private Rigidbody2D rb;
     private bool isGrounded;
+    private float moveDirection;
 
     void Start()
     {
@@ -15,9 +20,8 @@ public class Player1Controller : MonoBehaviour
 
     void Update()
     {
-        float moveDirection = 0f;
+        moveDirection = 0f;
         
-        // Logika Bergerak Kiri & Kanan (Panah Kiri dan Kanan)
         if (Input.GetKey(KeyCode.RightArrow))
         {
             moveDirection = 1f;
@@ -27,14 +31,21 @@ public class Player1Controller : MonoBehaviour
             moveDirection = -1f;
         }
 
-        rb.linearVelocity = new Vector2(moveDirection * moveSpeed, rb.linearVelocity.y);
-
-        // Logika Melompat (Panah Atas)
         if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             isGrounded = false;
         }
+    }
+
+    void FixedUpdate()
+    {
+        // Jalankan pergerakan fisik
+        rb.linearVelocity = new Vector2(moveDirection * moveSpeed, rb.linearVelocity.y);
+
+        // Kunci posisi X agar tidak pernah melewati minX dan maxX
+        float clampedX = Mathf.Clamp(transform.position.x, minX, maxX);
+        transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

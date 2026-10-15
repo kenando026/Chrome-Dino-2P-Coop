@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public float speedIncrease = 0.1f;
     public float CurrentSpeed { get; private set; }
 
+    // Variabel pembantu agar Obstacle dan GroundScroller bisa memanggil GameManager.Instance.gameSpeed dengan mudah
+    public float gameSpeed => CurrentSpeed;
+
     [Header("Skor")]
     public float scoreMultiplier = 10f;
     public float Score { get; private set; }
@@ -106,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        // Memuat ulang scene ini dari awal. (Waktu akan otomatis menjadi normal lagi karena fungsi Start dipanggil)
+        // Memuat ulang scene ini dari awal
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

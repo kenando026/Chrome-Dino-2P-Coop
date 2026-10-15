@@ -402,7 +402,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 30, y: 1}
+  m_Size: {x: 40, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -420,9 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
   speed: 5
-  otherGround: {fileID: 966201555}
   groundWidth: 30
-  overlap: 0.1
 --- !u!61 &480090567
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -462,7 +460,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 30, y: 1}
+    newSize: {x: 40, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0
@@ -500,7 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   startSpeed: 5
   maxSpeed: 15
-  speedIncrease: 0.1
+  speedIncrease: 1
   scoreMultiplier: 10
   scoreText: {fileID: 1943730235}
   highScoreText: {fileID: 860726402}
@@ -1300,7 +1298,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 30, y: 1}
+  m_Size: {x: 40, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1318,9 +1316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
   speed: 5
-  otherGround: {fileID: 480090563}
   groundWidth: 30
-  overlap: 0.1
 --- !u!61 &966201559
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1360,7 +1356,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
-    newSize: {x: 30, y: 1}
+    newSize: {x: 40, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0
@@ -1914,7 +1910,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.5010391}
+  m_Offset: {x: -0.047953963, y: 0.5010391}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -1924,7 +1920,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.9447719}
+  m_Size: {x: 0.7410481, y: 0.9447719}
   m_EdgeRadius: 0
 --- !u!212 &1756453120
 SpriteRenderer:
@@ -2036,6 +2032,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player1Controller
   moveSpeed: 5
   jumpForce: 10
+  minX: -6.8
+  maxX: 8.5
 --- !u!1 &1943730233
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,6 +2352,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player2Controller
   moveSpeed: 5
   jumpForce: 10
+  minX: -6.8
+  maxX: 8.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

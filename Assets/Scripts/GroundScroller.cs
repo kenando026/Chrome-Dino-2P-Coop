@@ -4,40 +4,35 @@ public class GroundScroller : MonoBehaviour
 {
     [Header("Settings")]
     public float speed = 5f;
-    public Transform otherGround;
-    public float groundWidth = 30f;
     
-    [Tooltip("Nilai overlap untuk menutup celah/undakan piksel di ujung sprite")]
-    public float overlap = 0.1f; 
+    [Tooltip("Lebar visual 1 objek tanah. Sesuaikan angkanya di Inspector jika masih ada celah.")]
+    public float groundWidth = 20f; 
 
     private float fixedY;
     private float fixedZ;
 
     void Start()
     {
-        // Simpan koordinat Y dan Z awal agar kuncinya 100% konsisten sejak game mulai
+        // Simpan koordinat Y dan Z awal agar tanah tidak pernah bergeser naik/turun
         fixedY = transform.position.y;
         fixedZ = transform.position.z;
     }
 
     void Update()
     {
-        // 1. Geser tanah ke kiri menggunakan pos X langsung (presisi tinggi)
+        // 1. Geser tanah ke kiri
         Vector3 pos = transform.position;
         pos.x -= speed * Time.deltaTime;
-        pos.y = fixedY; // Kunci Y agar tidak pernah bergeser berundak
+        pos.y = fixedY; // Kunci Y agar tidak naik-turun
         pos.z = fixedZ;
         transform.position = pos;
 
-        // 2. Teleport tanah saat sudah melewati batas lebar tanahnya
+        // 2. Lempar balik ke belakang tanah sebelahnya saat sudah melampaui groundWidth
         if (transform.position.x <= -groundWidth)
         {
-            // Pindahkan tepat ke belakang otherGround dan kurangi nilai overlap
-            pos.x = (otherGround.position.x + groundWidth) - overlap;
-            pos.y = otherGround.position.y;
-            pos.z = otherGround.position.z;
-
-            transform.position = pos;
+            // Tambahkan (groundWidth * 2) ke posisi X saat ini agar menyambung presisi
+            Vector3 resetPosition = new Vector3(transform.position.x + (groundWidth * 2f), fixedY, fixedZ);
+            transform.position = resetPosition;
         }
     }
 }
