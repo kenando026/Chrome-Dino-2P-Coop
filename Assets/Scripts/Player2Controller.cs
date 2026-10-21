@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 
 public class Player2Controller : MonoBehaviour
@@ -12,10 +13,12 @@ public class Player2Controller : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded;
     private float moveDirection;
+    private Collider2D myCollider;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        myCollider = GetComponent<Collider2D>();
     }
 
     void Update()
@@ -54,9 +57,18 @@ public class Player2Controller : MonoBehaviour
     {
         isGrounded = true; 
 
-        if (collision.gameObject.CompareTag("Obstacle"))
+        string tag = collision.gameObject.tag;
+
+        if (tag == "Obstacle")
         {
             Object.FindFirstObjectByType<GameManager>().GameOver(); 
+        }
+
+        if (tag == "Player2")
+        {
+            Collider2D collider2D = collision.collider;
+
+            Physics2D.IgnoreCollision(myCollider, collider2D, true);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Player1Controller : MonoBehaviour
@@ -12,10 +13,12 @@ public class Player1Controller : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded;
     private float moveDirection;
+    private Collider2D myCollider;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        myCollider = GetComponent<Collider2D>();
     }
 
     void Update()
@@ -47,14 +50,23 @@ public class Player1Controller : MonoBehaviour
         float clampedX = Mathf.Clamp(transform.position.x, minX, maxX);
         transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
     }
-
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isGrounded = true; 
 
-        if (collision.gameObject.CompareTag("Obstacle"))
+        string tag = collision.gameObject.tag;
+
+        if (tag == "Obstacle")
         {
             Object.FindFirstObjectByType<GameManager>().GameOver(); 
+        }
+
+        if (tag == "Player2")
+        {
+            Collider2D collider2D = collision.collider;
+
+            Physics2D.IgnoreCollision(myCollider, collider2D, true);
         }
     }
 }
